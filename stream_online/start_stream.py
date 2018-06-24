@@ -8,7 +8,7 @@ def main():
     parser.add_argument('-o', '--output_port', default=8888, type=int, help="Stream output port.")
     parser.add_argument('-n', '--n_images', default=-1, type=int, help="Number of images to generate in the stream "
                                                                        "(-1 == infinite).")
-    parser.add_argument('-d', '--delay', default=0.1, type=float, help="Delay between each message on the stream.")
+    parser.add_argument('-d', '--delay', default=1, type=float, help="Delay between each message on the stream.")
 
     arguments = parser.parse_args()
 

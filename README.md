@@ -9,7 +9,7 @@ conda install -c conda-forge flask-socketio
 - Services introduction
    - **stream\_online\/start\_server.py** is the entry point for the web server.
    - **stream\_online\/start\_stream.py** is the entry point for the stream server.
-   - Both **stream\_online\/start\_server.py** and **stream\_online\/start\_stream.py** can access "-o" and "-d" arguments. The values of them should be the same for these two services.
+   - Both **stream\_online\/start\_server.py** and **stream\_online\/start\_stream.py** can access "-o" and "-d" arguments. The values of them should be the same for these two services. The value of "-d" should not be too small, or it will fail to generate and update the stream image accordingly. 
    - Example:
 ```bash
 python start_server.py -o 8888 -d 1

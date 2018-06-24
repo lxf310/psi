@@ -78,7 +78,7 @@ def main():
     parser.add_argument('-o', '--output_port', default=8888, type=int, help="Stream output port")
     parser.add_argument('-s', '--output_host', default='localhost', type=str, help="Stream output host")
     parser.add_argument('-p', '--server_port', default=5000, type=int, help="Server port")
-    parser.add_argument('-d', '--delay', default=0.1, type=float, help="Delay between each emit action.")
+    parser.add_argument('-d', '--delay', default=1, type=float, help="Delay between each emit action.")
     arguments = parser.parse_args()
     # set the arguments
     global stream_output_port
