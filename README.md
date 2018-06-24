@@ -7,7 +7,10 @@ The goal of this task is to display a stream in a web client.
 conda install -c conda-forge flask-socketio
 ```
 - **stream\_online\/start\_server.py** is the entry point for the web server
-- **stream\_online\/start\_stream.py** is the entry point for the stream server
+- **stream\_online\/start\_stream.py** is the entry point for the stream server. The delay between each message on the stream show be set to *1*.
+```bash
+python stream\_online\/start\_stream.py -d 1
+```
 
 # Solution description
 - Chosen technology and library
@@ -16,6 +19,7 @@ conda install -c conda-forge flask-socketio
 - Basic ideas
    - The server pushes data to the connected clients. 
       - When a new stream message comes, the server will call *socketio.emit()* method to broadcast a named event to all connected clients. A message of server Response contains beam energy, repetition rate and the relative directory of the corresponding image picture. The picture is named after the port number of the stream output server and is temporarily stored in static directory for displaying. 
+      - 60 messages will be processed and emitted to the clients every minute.
    - The client listens to the specific event coming from the server and then update the HTML page accordingly.
       - A client will connect to a specific channel of the server side and then listen to the specific event as soon as the HTML page is ready. When the event is caught, the client will take use of jquery selectors to update the relevant HTML elements. The connection will terminate automatically when the client window is closed.
 - Drawbacks
