@@ -6,7 +6,7 @@ The goal of this task is to display a stream in a web client.
 ```bash
 conda install -c conda-forge flask-socketio
 ```
-- Entries for services
+- Services introduction
    - **stream\_online\/start\_server.py** is the entry point for the web server.
    - **stream\_online\/start\_stream.py** is the entry point for the stream server.
    - Both **stream\_online\/start\_server.py** and **stream\_online\/start\_stream.py** can access "-o" and "-d" arguments. The values of them should be the same for these two services.
