@@ -10,9 +10,15 @@
 <script type="text/javascript">  
     var socket = null;
     $(document).ready(function() {  
-        namespace = '/test_conn';  
-        socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace);  
-        console.log('connected');
+        namespace = '/test_conn'; 
+        /**
+        * Connect to the server
+        */ 
+        socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace);
+
+        /**
+        * Listen to 'server_response' event and then update the page
+        */  
         socket.on('server_response', data => {
             console.log(data);  
             d = new Date();

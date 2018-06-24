@@ -6,11 +6,16 @@ The goal of this task is to display a stream in a web client.
 ```bash
 conda install -c conda-forge flask-socketio
 ```
-- **stream\_online\/start\_server.py** is the entry point for the web server
-- **stream\_online\/start\_stream.py** is the entry point for the stream server. The delay between each message on the stream show be set to *1*.
+- Entries for services
+   - **stream\_online\/start\_server.py** is the entry point for the web server.
+   - **stream\_online\/start\_stream.py** is the entry point for the stream server.
+   - Both **stream\_online\/start\_server.py** and **stream\_online\/start\_stream.py** can access "-o" and "-d" arguments. The values of them should be the same for these two services.
+   - Example:
 ```bash
-python start_stream.py -d 1
+python start_server.py -o 8888 -d 1
+python start_stream.py -o 8888 -d 1
 ```
+- By default, user can access this web application via **http://127.0.0.1:5000**
 
 # Solution description
 - Chosen technology and library
