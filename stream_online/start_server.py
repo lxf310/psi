@@ -50,8 +50,7 @@ def processStream():
             print(beam_energy)
             socketio.emit('server_response', 
                            metadata, 
-                           namespace='/test_conn',
-                           broadcast=True)
+                           namespace='/test_conn')
 
 @app.route('/')
 def index():
