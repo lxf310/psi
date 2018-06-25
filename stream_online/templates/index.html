@@ -20,12 +20,9 @@
         * Listen to 'server_response' event and then update the page
         */  
         socket.on('server_response', data => {
-            console.log(data);  
-            d = new Date();
-            console.log(d.getTime());
             $('#energy').text('beam_energy: ' + data.beam_energy);
             $('#rate').text('repetition_rate: ' + data.repetition_rate);
-            $('#picture').attr("src", data.picture + '?' + d.getTime());
+            $('#picture').attr('src', 'data:image/jpg;base64,' + data.img);
         });  
   
     });  

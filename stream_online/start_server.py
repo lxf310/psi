@@ -9,8 +9,9 @@ import argparse
 import os
 from matplotlib import pyplot
 from threading import Lock
-picName = None
-picUrlName = None
+from io import BytesIO
+import base64
+
 delay = None
 async_mode = None
 app = Flask(__name__, static_url_path="/static", static_folder="static")
@@ -25,29 +26,32 @@ def processStream():
     """
     Process stream message:
     1. collect stream metadata
-    2. generate and save the corresponding image picture to static directory
+    2. generate and encode the corresponding image data
     3. emit the data to connected clients
     """
     with source(host=stream_output_host, port=stream_output_port, receive_timeout=1000) as input_stream:
         while True:
+            socketio.sleep(delay)
             message = input_stream.receive()
             if message is None:
                 continue
-            socketio.sleep(delay)
             beam_energy = message.data.data["beam_energy"].value
             repetition_rate = message.data.data["repetition_rate"].value
             image = message.data.data["image"].value
             pyplot.imshow(image)
-            pyplot.savefig(picName)
+            figfile = BytesIO()
+            pyplot.savefig(figfile, format="jpg")
+            figfile.seek(0)
             metadata = {
                 'beam_energy': str(beam_energy),
                 'repetition_rate': str(repetition_rate),
-                'picture': picUrlName
+                'img': str(base64.b64encode(figfile.getvalue()), encoding='utf-8')
             }
-            print(metadata)
+            print(beam_energy)
             socketio.emit('server_response', 
                            metadata, 
-                           namespace='/test_conn')
+                           namespace='/test_conn',
+                           broadcast=True)
 
 @app.route('/')
 def index():
@@ -63,7 +67,8 @@ class MyNamespace(Namespace):
             if thread is None:
                 thread = socketio.start_background_task(
                     target=processStream)
-        socketio.emit('server_response', {'beam_energy': '', 'repetition_rate': '', 'picture': ''})
+                print("create a new thread")
+        socketio.emit('server_response', {'beam_energy': '', 'repetition_rate': '', 'img': ''})
 
     def on_disconnect(self):
         """
@@ -85,10 +90,6 @@ def main():
     global stream_output_host
     stream_output_port = arguments.output_port
     stream_output_host = arguments.output_host
-    global picUrlName
-    global picName
-    picUrlName = "/static/%s.jpg" % str(stream_output_port)
-    picName = "." + picUrlName
     global delay
     delay = arguments.delay
     socketio.run(app, port=arguments.server_port, debug=True)
